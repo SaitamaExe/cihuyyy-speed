@@ -1,4 +1,4 @@
--- NN ANTI AFK (COREGUI FIX - DELTA)
+-- NN ANTI AFK | CLEAN UI | DELTA SAFE
 
 local Players = game:GetService("Players")
 local VirtualUser = game:GetService("VirtualUser")
@@ -7,67 +7,66 @@ local player = Players.LocalPlayer
 
 local enabled = false
 
--- ================= GUI ROOT =================
+-- ROOT GUI
 local gui = Instance.new("ScreenGui")
 gui.Name = "NN_AntiAFK"
-
--- PARENT KE COREGUI (INI KUNCI)
 pcall(function()
 	gui.Parent = gethui and gethui() or CoreGui
 end)
 
--- ================= FRAME =================
+-- MAIN FRAME (STRUKTUR ASLI, JANGAN DIUBAH)
 local frame = Instance.new("Frame", gui)
-frame.Size = UDim2.new(0, 240, 0, 120)
-frame.Position = UDim2.new(0, 30, 0.5, -60)
-frame.BackgroundColor3 = Color3.fromRGB(30,30,30)
+frame.Size = UDim2.new(0, 260, 0, 140)
+frame.Position = UDim2.new(0, 30, 0.5, -70)
+frame.BackgroundColor3 = Color3.fromRGB(24, 24, 28)
 frame.BorderSizePixel = 0
 frame.Active = true
 frame.Draggable = true
 
--- TITLE
-local title = Instance.new("TextLabel", frame)
-title.Size = UDim2.new(1,0,0,30)
-title.BackgroundColor3 = Color3.fromRGB(45,45,45)
-title.Text = "NN • ANTI AFK"
-title.Font = Enum.Font.SourceSansBold
-title.TextSize = 18
-title.TextColor3 = Color3.fromRGB(200,220,255)
+-- HEADER
+local header = Instance.new("TextLabel", frame)
+header.Size = UDim2.new(1, 0, 0, 34)
+header.BackgroundColor3 = Color3.fromRGB(36, 36, 44)
+header.Text = "  NN • ANTI AFK"
+header.Font = Enum.Font.SourceSansBold
+header.TextSize = 18
+header.TextXAlignment = Enum.TextXAlignment.Left
+header.TextColor3 = Color3.fromRGB(220, 225, 255)
 
 -- STATUS
 local status = Instance.new("TextLabel", frame)
-status.Position = UDim2.new(0,0,0,40)
-status.Size = UDim2.new(1,0,0,25)
+status.Position = UDim2.new(0, 0, 0, 50)
+status.Size = UDim2.new(1, 0, 0, 26)
 status.BackgroundTransparency = 1
 status.Text = "Status : OFF"
 status.Font = Enum.Font.SourceSans
 status.TextSize = 16
-status.TextColor3 = Color3.new(1,1,1)
+status.TextColor3 = Color3.fromRGB(230, 230, 230)
 
--- TOGGLE
+-- TOGGLE BUTTON
 local toggle = Instance.new("TextButton", frame)
-toggle.Position = UDim2.new(0.2,0,0,75)
-toggle.Size = UDim2.new(0.6,0,0,30)
+toggle.Position = UDim2.new(0.2, 0, 1, -45)
+toggle.Size = UDim2.new(0.6, 0, 0, 32)
 toggle.Text = "ENABLE"
 toggle.Font = Enum.Font.SourceSansBold
-toggle.TextSize = 18
+toggle.TextSize = 17
 toggle.TextColor3 = Color3.new(1,1,1)
-toggle.BackgroundColor3 = Color3.fromRGB(70,70,70)
+toggle.BackgroundColor3 = Color3.fromRGB(90, 90, 110)
 
 toggle.MouseButton1Click:Connect(function()
 	enabled = not enabled
 	if enabled then
 		status.Text = "Status : ON"
 		toggle.Text = "DISABLE"
-		toggle.BackgroundColor3 = Color3.fromRGB(80,140,90)
+		toggle.BackgroundColor3 = Color3.fromRGB(80, 150, 110)
 	else
 		status.Text = "Status : OFF"
 		toggle.Text = "ENABLE"
-		toggle.BackgroundColor3 = Color3.fromRGB(70,70,70)
+		toggle.BackgroundColor3 = Color3.fromRGB(90, 90, 110)
 	end
 end)
 
--- ================= ANTI AFK =================
+-- ANTI AFK CORE
 player.Idled:Connect(function()
 	if enabled then
 		VirtualUser:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
