@@ -1,6 +1,5 @@
--- NN ANTI AFK
--- Executor: DELTA
--- Mode: Anti Kick AFK (no auto click)
+-- NN ANTI AFK (DELTA SAFE / NO BLANK)
+-- Simple UI, stable render
 
 local Players = game:GetService("Players")
 local VirtualUser = game:GetService("VirtualUser")
@@ -14,122 +13,102 @@ local running = true
 local gui = Instance.new("ScreenGui")
 gui.Name = "NN_AntiAFK"
 gui.ResetOnSpawn = false
+gui.IgnoreGuiInset = true
 gui.Parent = player:WaitForChild("PlayerGui")
 
--- ================= MAIN PANEL =================
-local panel = Instance.new("Frame", gui)
-panel.Size = UDim2.new(0, 340, 0, 190)
-panel.Position = UDim2.new(0, 40, 0.5, -95)
-panel.BackgroundColor3 = Color3.fromRGB(18,18,18)
-panel.BorderSizePixel = 0
-panel.Active = true
-panel.Draggable = true
-Instance.new("UICorner", panel).CornerRadius = UDim.new(0,14)
+-- ================= MAIN FRAME =================
+local frame = Instance.new("Frame")
+frame.Parent = gui
+frame.Size = UDim2.new(0, 260, 0, 140)
+frame.Position = UDim2.new(0, 40, 0.5, -70)
+frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
 
 -- ================= HEADER =================
-local header = Instance.new("Frame", panel)
-header.Size = UDim2.new(1,0,0,42)
-header.BackgroundColor3 = Color3.fromRGB(26,26,26)
+local header = Instance.new("Frame")
+header.Parent = frame
+header.Size = UDim2.new(1, 0, 0, 32)
+header.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
 header.BorderSizePixel = 0
-Instance.new("UICorner", header).CornerRadius = UDim.new(0,14)
 
-local title = Instance.new("TextLabel", header)
-title.Size = UDim2.new(1,-90,1,0)
-title.Position = UDim2.new(0,14,0,0)
+local title = Instance.new("TextLabel")
+title.Parent = header
+title.Size = UDim2.new(1, -64, 1, 0)
+title.Position = UDim2.new(0, 8, 0, 0)
 title.BackgroundTransparency = 1
 title.Text = "NN • ANTI AFK"
-title.Font = Enum.Font.GothamBold
-title.TextSize = 14
-title.TextColor3 = Color3.fromRGB(120,200,255)
-title.TextXAlignment = Left
+title.Font = Enum.Font.SourceSansBold
+title.TextSize = 16
+title.TextColor3 = Color3.fromRGB(180, 220, 255)
+title.TextXAlignment = Enum.TextXAlignment.Left
 
--- Minimize
-local minBtn = Instance.new("TextButton", header)
-minBtn.Size = UDim2.new(0,28,0,28)
-minBtn.Position = UDim2.new(1,-64,0.5,-14)
-minBtn.Text = "—"
-minBtn.Font = Enum.Font.GothamBold
-minBtn.TextSize = 18
-minBtn.BackgroundColor3 = Color3.fromRGB(55,55,55)
+local minBtn = Instance.new("TextButton")
+minBtn.Parent = header
+minBtn.Size = UDim2.new(0, 32, 1, 0)
+minBtn.Position = UDim2.new(1, -64, 0, 0)
+minBtn.Text = "-"
+minBtn.Font = Enum.Font.SourceSansBold
+minBtn.TextSize = 22
 minBtn.TextColor3 = Color3.new(1,1,1)
-Instance.new("UICorner", minBtn).CornerRadius = UDim.new(0,8)
+minBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
 
--- Exit
-local exitBtn = Instance.new("TextButton", header)
-exitBtn.Size = UDim2.new(0,28,0,28)
-exitBtn.Position = UDim2.new(1,-32,0.5,-14)
+local exitBtn = Instance.new("TextButton")
+exitBtn.Parent = header
+exitBtn.Size = UDim2.new(0, 32, 1, 0)
+exitBtn.Position = UDim2.new(1, -32, 0, 0)
 exitBtn.Text = "X"
-exitBtn.Font = Enum.Font.GothamBold
-exitBtn.TextSize = 14
-exitBtn.BackgroundColor3 = Color3.fromRGB(70,40,40)
-exitBtn.TextColor3 = Color3.fromRGB(255,120,120)
-Instance.new("UICorner", exitBtn).CornerRadius = UDim.new(0,8)
+exitBtn.Font = Enum.Font.SourceSansBold
+exitBtn.TextSize = 18
+exitBtn.TextColor3 = Color3.fromRGB(255, 150, 150)
+exitBtn.BackgroundColor3 = Color3.fromRGB(80, 40, 40)
 
 -- ================= CONTENT =================
-local content = Instance.new("Frame", panel)
-content.Position = UDim2.new(0,0,0,42)
-content.Size = UDim2.new(1,0,1,-42)
-content.BackgroundTransparency = 1
-
-local status = Instance.new("TextLabel", content)
-status.Position = UDim2.new(0,0,0,20)
-status.Size = UDim2.new(1,0,0,26)
+local status = Instance.new("TextLabel")
+status.Parent = frame
+status.Size = UDim2.new(1, 0, 0, 30)
+status.Position = UDim2.new(0, 0, 0, 40)
 status.BackgroundTransparency = 1
-status.Text = "Status : OFF ❌"
-status.Font = Enum.Font.Gotham
-status.TextSize = 13
-status.TextColor3 = Color3.fromRGB(220,220,220)
+status.Text = "Status : OFF"
+status.Font = Enum.Font.SourceSans
+status.TextSize = 16
+status.TextColor3 = Color3.fromRGB(230, 230, 230)
 
-local toggle = Instance.new("TextButton", content)
-toggle.Position = UDim2.new(0.2,0,0,65)
-toggle.Size = UDim2.new(0.6,0,0,40)
+local toggle = Instance.new("TextButton")
+toggle.Parent = frame
+toggle.Size = UDim2.new(0.6, 0, 0, 36)
+toggle.Position = UDim2.new(0.2, 0, 0, 80)
 toggle.Text = "ENABLE"
-toggle.Font = Enum.Font.GothamBold
-toggle.TextSize = 14
+toggle.Font = Enum.Font.SourceSansBold
+toggle.TextSize = 18
 toggle.TextColor3 = Color3.new(1,1,1)
-toggle.BackgroundColor3 = Color3.fromRGB(60,60,60)
-Instance.new("UICorner", toggle).CornerRadius = UDim.new(0,10)
-
-local info = Instance.new("TextLabel", content)
-info.Position = UDim2.new(0,16,0,115)
-info.Size = UDim2.new(1,-32,0,50)
-info.BackgroundTransparency = 1
-info.TextWrapped = true
-info.TextXAlignment = Left
-info.TextYAlignment = Top
-info.Font = Enum.Font.Gotham
-info.TextSize = 11
-info.TextColor3 = Color3.fromRGB(160,160,160)
-info.Text =
-[[• Mencegah kick AFK
-• Tidak auto click
-• Aman buka tas / shop
-• Stabil & ringan]]
+toggle.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
 
 -- ================= LOGO NN =================
-local logo = Instance.new("TextButton", gui)
-logo.Size = UDim2.new(0,48,0,48)
-logo.Position = UDim2.new(0,20,0.5,-24)
+local logo = Instance.new("TextButton")
+logo.Parent = gui
+logo.Size = UDim2.new(0, 48, 0, 48)
+logo.Position = UDim2.new(0, 20, 0.5, -24)
 logo.Text = "NN"
-logo.Font = Enum.Font.GothamBlack
-logo.TextSize = 18
-logo.TextColor3 = Color3.fromRGB(120,200,255)
-logo.BackgroundColor3 = Color3.fromRGB(18,18,18)
+logo.Font = Enum.Font.SourceSansBold
+logo.TextSize = 20
+logo.TextColor3 = Color3.fromRGB(180, 220, 255)
+logo.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 logo.Visible = false
 logo.Active = true
 logo.Draggable = true
-Instance.new("UICorner", logo).CornerRadius = UDim.new(1,0)
 
 -- ================= LOGIC =================
 local function updateUI()
 	if enabled then
-		status.Text = "Status : ON 🛡️"
+		status.Text = "Status : ON (Anti AFK)"
 		toggle.Text = "DISABLE"
-		toggle.BackgroundColor3 = Color3.fromRGB(70,140,90)
+		toggle.BackgroundColor3 = Color3.fromRGB(70, 140, 90)
 	else
-		status.Text = "Status : OFF ❌"
+		status.Text = "Status : OFF"
 		toggle.Text = "ENABLE"
-		toggle.BackgroundColor3 = Color3.fromRGB(60,60,60)
+		toggle.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
 	end
 end
 
@@ -139,12 +118,12 @@ toggle.MouseButton1Click:Connect(function()
 end)
 
 minBtn.MouseButton1Click:Connect(function()
-	panel.Visible = false
+	frame.Visible = false
 	logo.Visible = true
 end)
 
 logo.MouseButton1Click:Connect(function()
-	panel.Visible = true
+	frame.Visible = true
 	logo.Visible = false
 end)
 
@@ -158,7 +137,7 @@ end)
 player.Idled:Connect(function()
 	if enabled then
 		VirtualUser:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
-		task.wait(1)
+		task.wait(0.5)
 		VirtualUser:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
 	end
 end)
