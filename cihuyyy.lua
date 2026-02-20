@@ -1,106 +1,107 @@
--- NN ANTI AFK | MODERN UI | DELTA SAFE
+-- NN ANTI AFK | DELTA ULTRA SAFE
 
 local Players = game:GetService("Players")
 local VirtualUser = game:GetService("VirtualUser")
 local CoreGui = game:GetService("CoreGui")
 local player = Players.LocalPlayer
 
-local enabled = false
+local enabled = true
 
--- ROOT GUI
+-- ROOT
 local gui = Instance.new("ScreenGui")
-gui.Name = "NN_UI"
+gui.Name = "NN_SafeUI"
 pcall(function()
 	gui.Parent = gethui and gethui() or CoreGui
 end)
 
 -- MAIN FRAME
-local main = Instance.new("Frame", gui)
-main.Size = UDim2.new(0, 320, 0, 180)
-main.Position = UDim2.new(0.5, -160, 0.5, -90)
-main.BackgroundColor3 = Color3.fromRGB(25,25,25)
+local main = Instance.new("Frame")
+main.Parent = gui
+main.Size = UDim2.new(0,260,0,140)
+main.Position = UDim2.new(0.5,-130,0.5,-70)
+main.BackgroundColor3 = Color3.fromRGB(35,35,35)
 main.BorderSizePixel = 0
 main.Active = true
 main.Draggable = true
 
--- TOP BAR
-local top = Instance.new("Frame", main)
-top.Size = UDim2.new(1,0,0,36)
-top.BackgroundColor3 = Color3.fromRGB(35,35,35)
+-- HEADER
+local header = Instance.new("Frame", main)
+header.Size = UDim2.new(1,0,0,30)
+header.BackgroundColor3 = Color3.fromRGB(50,50,50)
 
-local title = Instance.new("TextLabel", top)
-title.Size = UDim2.new(1,-80,1,0)
-title.Position = UDim2.new(0,12,0,0)
+local title = Instance.new("TextLabel", header)
+title.Size = UDim2.new(1,-60,1,0)
+title.Position = UDim2.new(0,10,0,0)
 title.BackgroundTransparency = 1
-title.Text = "NN • Anti AFK"
-title.Font = Enum.Font.GothamBold
+title.Text = "NN Anti AFK"
+title.Font = Enum.Font.SourceSansBold
 title.TextSize = 16
-title.TextXAlignment = Left
-title.TextColor3 = Color3.fromRGB(220,220,255)
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.TextColor3 = Color3.new(1,1,1)
 
 -- MINIMIZE
-local min = Instance.new("TextButton", top)
-min.Size = UDim2.new(0,36,1,0)
-min.Position = UDim2.new(1,-72,0,0)
-min.Text = "—"
-min.Font = Enum.Font.GothamBold
-min.TextSize = 20
-min.BackgroundColor3 = Color3.fromRGB(45,45,45)
+local min = Instance.new("TextButton", header)
+min.Size = UDim2.new(0,30,1,0)
+min.Position = UDim2.new(1,-60,0,0)
+min.Text = "-"
+min.Font = Enum.Font.SourceSansBold
+min.TextSize = 18
+min.BackgroundColor3 = Color3.fromRGB(70,70,70)
 min.TextColor3 = Color3.new(1,1,1)
 
--- EXIT
-local close = Instance.new("TextButton", top)
-close.Size = UDim2.new(0,36,1,0)
-close.Position = UDim2.new(1,-36,0,0)
+-- CLOSE
+local close = Instance.new("TextButton", header)
+close.Size = UDim2.new(0,30,1,0)
+close.Position = UDim2.new(1,-30,0,0)
 close.Text = "X"
-close.Font = Enum.Font.GothamBold
-close.TextSize = 18
+close.Font = Enum.Font.SourceSansBold
+close.TextSize = 16
 close.BackgroundColor3 = Color3.fromRGB(120,60,60)
 close.TextColor3 = Color3.new(1,1,1)
 
--- CONTENT
-local info = Instance.new("TextLabel", main)
-info.Position = UDim2.new(0,0,0,50)
-info.Size = UDim2.new(1,0,0,40)
-info.BackgroundTransparency = 1
-info.Text = "Status : OFF\nAnti AFK berjalan di background"
-info.Font = Enum.Font.Gotham
-info.TextSize = 14
-info.TextColor3 = Color3.fromRGB(200,200,200)
+-- STATUS
+local status = Instance.new("TextLabel", main)
+status.Position = UDim2.new(0,0,0,45)
+status.Size = UDim2.new(1,0,0,30)
+status.BackgroundTransparency = 1
+status.Text = "Status : ON (Anti AFK aktif)"
+status.Font = Enum.Font.SourceSans
+status.TextSize = 14
+status.TextColor3 = Color3.new(1,1,1)
 
 -- TOGGLE
 local toggle = Instance.new("TextButton", main)
-toggle.Size = UDim2.new(0.7,0,0,36)
-toggle.Position = UDim2.new(0.15,0,1,-50)
-toggle.Text = "ENABLE"
-toggle.Font = Enum.Font.GothamBold
-toggle.TextSize = 16
+toggle.Size = UDim2.new(0.6,0,0,30)
+toggle.Position = UDim2.new(0.2,0,1,-40)
+toggle.Text = "DISABLE"
+toggle.Font = Enum.Font.SourceSansBold
+toggle.TextSize = 14
+toggle.BackgroundColor3 = Color3.fromRGB(80,140,90)
 toggle.TextColor3 = Color3.new(1,1,1)
-toggle.BackgroundColor3 = Color3.fromRGB(70,70,70)
 
 toggle.MouseButton1Click:Connect(function()
 	enabled = not enabled
 	if enabled then
+		status.Text = "Status : ON (Anti AFK aktif)"
 		toggle.Text = "DISABLE"
-		toggle.BackgroundColor3 = Color3.fromRGB(80,150,100)
-		info.Text = "Status : ON\nAnti AFK berjalan di background"
+		toggle.BackgroundColor3 = Color3.fromRGB(80,140,90)
 	else
+		status.Text = "Status : OFF"
 		toggle.Text = "ENABLE"
-		toggle.BackgroundColor3 = Color3.fromRGB(70,70,70)
-		info.Text = "Status : OFF\nAnti AFK berjalan di background"
+		toggle.BackgroundColor3 = Color3.fromRGB(90,90,90)
 	end
 end)
 
--- MINIMIZE TO LOGO
+-- LOGO MINIMIZED
 local logo = Instance.new("TextButton", gui)
-logo.Size = UDim2.new(0,50,0,50)
-logo.Position = UDim2.new(0,20,0.5,-25)
+logo.Size = UDim2.new(0,40,0,40)
+logo.Position = UDim2.new(0,15,0.5,-20)
 logo.Text = "NN"
-logo.Font = Enum.Font.GothamBlack
-logo.TextSize = 18
+logo.Font = Enum.Font.SourceSansBold
+logo.TextSize = 16
 logo.Visible = false
-logo.BackgroundColor3 = Color3.fromRGB(40,40,40)
-logo.TextColor3 = Color3.fromRGB(200,200,255)
+logo.BackgroundColor3 = Color3.fromRGB(50,50,50)
+logo.TextColor3 = Color3.new(1,1,1)
 
 min.MouseButton1Click:Connect(function()
 	main.Visible = false
